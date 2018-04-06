@@ -1,16 +1,17 @@
 import React from 'react';
 
-const PageLinks = () => {
+const PageLinks = (props) => {
+
   return (
     <div>
       <div>
-        <a>Current</a>
-        <a>Hourly</a>
-        <a>5 Day</a>
+        <a onClick={() => props.handleSectionChange('current')}>Current</a>
+        <a onClick={() => props.handleSectionChange('hourly')}>Hourly</a>
+        <a onClick={() => props.handleSectionChange('forecast')}>5 Day</a>
       </div>
       <div>
-        <a>˚F</a>
-        <a>˚C</a>
+        <a onClick={() => props.handleUnitChange('imperial')}>Imperial</a>
+        <a onClick={() => props.handleUnitChange('metric')}>Metric</a>
       </div>
     </div>
   )
