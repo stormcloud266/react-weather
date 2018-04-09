@@ -4,7 +4,7 @@ const ForecastInfo = (props) => {
 
   let pArray = [];
 
-  for (let i = 0; i < 5; i++){
+  for (let i = 0; i < 3; i++){
     pArray.push(
       <div key={i}>
         <img src={props.forecast.forecast.simpleforecast.forecastday[i].icon_url}></img>
@@ -28,7 +28,7 @@ const ForecastInfo = (props) => {
   }
 
   return (
-    <div>
+    <div className="forecast-info">
       {pArray}
     </div>
   )

@@ -1,0 +1,22 @@
+.search {
+  text-align: center;
+  // margin: 20px 0;
+  padding: 20px 0 25px;
+  border-bottom: 1px solid darken($mainCardBg, 5%);
+
+  &__input {
+    background: darken($mainCardBg, 10%);
+    border: none;
+    outline: none;
+    font-size: 20px;
+    font-weight: 100;
+    padding: 7px 12px;
+    color: $textColor;
+    border-radius: 3px;
+
+  &::placeholder {
+    color: $textColor;
+    opacity: .5;
+  }
+  }
+}

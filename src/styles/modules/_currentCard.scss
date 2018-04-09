@@ -1,0 +1,19 @@
+.currentCard {
+ background: $accentCardBg;
+ height: 500px;
+ flex: 1;
+ padding: 20px;
+ box-sizing: border-box;
+ display: flex;
+ text-align: center;
+ align-items: center;
+ justify-content: center;
+
+ &Inner {
+   height: 60%;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+
+ }
+}

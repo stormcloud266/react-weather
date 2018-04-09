@@ -1,0 +1,14 @@
+.hourly-info {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  // background: purple;
+  flex-basis: 100%;
+
+  &__array-container {
+    display: flex;
+    // background: darkred;
+    justify-content: space-around;
+    margin: 15px 0;
+  }
+}

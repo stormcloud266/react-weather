@@ -2,10 +2,10 @@ import React from 'react';
 
 const HourlyInfo = (props) => {
 
-  let pArray = [];
-  for (let i = 0; i < 10; i++) {
-    pArray.push(
+  const pushArray = (i, arr) => {
+    arr.push(
       <div key={i}>
+        <img src={props.hourly.hourly_forecast[i].icon_url}></img>
         <p>{props.hourly.hourly_forecast[i].FCTTIME.civil}</p>
         {
           props.units === 'imperial' ?
@@ -15,11 +15,27 @@ const HourlyInfo = (props) => {
         <p>{props.hourly.hourly_forecast[i].condition}</p>
       </div>
     )
+  }
+
+  let pArray1 = [];
+  let pArray2 = [];
+
+  for (let i = 0; i < 5; i++) {
+    pushArray(i, pArray1);
+  };
+  for (let i = 5; i < 10; i++) {
+    pushArray(i, pArray2);
   };
 
   return (
-    <div>
-      {pArray}
+    <div className="hourly-info">
+      <div className="hourly-info__array-container">
+        {pArray1}
+      </div>
+      {/* <div className="hourly-info__array-container">
+        {pArray2}
+      </div> */}
+
     </div>
   )
 }

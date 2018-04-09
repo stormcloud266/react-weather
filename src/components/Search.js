@@ -21,11 +21,18 @@ const Search = (props) => {
   }
 
   return (
-    <input
-      type="text"
-      placeholder="City"
-      onKeyUp={fetchData}
-    ></input>)
+    <div className="search">
+      {/* <i className="wi wi-wu-rain"></i> */}
+      {/* <i className="wi-wu-sleat"></i> */}
+
+      <input
+        type="text"
+        placeholder="City"
+        onKeyUp={fetchData}
+        className="search__input"
+      ></input>
+    </div>
+    )
 }
 
 export default Search;

@@ -2,15 +2,20 @@ import React from 'react';
 
 const CurrentCard = (props) => {
   return (
-    <div>
-      <p>Currently in {props.loc}</p>
-      <img src={props.icon}></img>
+    <div className="currentCardInner">
+      <p className="currentCardInner__currently">Currently in {props.loc}</p>
+      <div className="currentCardInner__img-container">
+        <img
+          src={props.icon}
+          className="currentCardInner__img"
+          ></img>
+      </div>
       {
         props.units === 'imperial' ?
-        <h3>{props.iTemp} ˚F</h3> :
-        <h3>{props.mTemp} ˚C</h3>
+        <h3 className="currentCardInner__temp">{props.iTemp} ˚F</h3> :
+        <h3 className="currentCardInner__temp">{props.mTemp} ˚C</h3>
       }
-      <p>{props.cond}</p>
+      <p className="currentCardInner__cond">{props.cond}</p>
     </div>
   )
 }

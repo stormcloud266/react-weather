@@ -15,7 +15,7 @@ class WeatherApp extends React.Component {
     conditions: undefined,
     hourly: undefined,
     forecast: undefined
-  };
+  }
 
   handleSectionChange = ( section ) => this.setState({ section });
 
@@ -90,9 +90,9 @@ class WeatherApp extends React.Component {
     }
 
     return (
-      <div>
-        <button onClick={() => console.log(this.state)}>Click</button>
-
+      <div className="wrapper">
+        {console.log(this.state)}
+        <div className="currentCard">
         {
           this.state.conditions !== undefined &&
             <CurrentCard
@@ -104,16 +104,21 @@ class WeatherApp extends React.Component {
               cond={this.state.conditions.current_observation.weather}
             />
         }
-
-        <PageLinks
-          handleSectionChange={this.handleSectionChange}
-          handleUnitChange={this.handleUnitChange}
-        />
-        <Search handleFetchData={this.handleFetchData}/>
-
-        {renderSection()}
-
       </div>
+
+      <div className="infoCard">
+        <div className="infoCard__nav-search">
+          <PageLinks
+            handleSectionChange={this.handleSectionChange}
+            handleUnitChange={this.handleUnitChange}
+          />
+          <Search handleFetchData={this.handleFetchData}/>
+        </div>
+        <div className="infoCard__info">
+          {renderSection()}
+        </div>
+      </div>
+    </div>
     )
   }
 
