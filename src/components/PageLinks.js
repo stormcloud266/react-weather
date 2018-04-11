@@ -10,8 +10,8 @@ const PageLinks = (props) => {
         <a onClick={() => props.handleSectionChange('forecast')}>5 Day</a>
       </div>
       <div className="page-links__unit-options">
-        <a onClick={() => props.handleUnitChange('imperial')}>Imperial</a>
-        <a onClick={() => props.handleUnitChange('metric')}>Metric</a>
+        <a onClick={() => props.handleUnitChange('us')}>Imperial</a>
+        <a onClick={() => props.handleUnitChange('is')}>Metric</a>
       </div>
     </div>
   )

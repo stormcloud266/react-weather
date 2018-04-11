@@ -7,22 +7,13 @@ const ForecastInfo = (props) => {
   for (let i = 0; i < 3; i++){
     pArray.push(
       <div key={i}>
-        <img src={props.forecast.forecast.simpleforecast.forecastday[i].icon_url}></img>
-        <p>{props.forecast.forecast.simpleforecast.forecastday[i].date.weekday}</p>
-        {
-          props.units === 'imperial' ? (
-            <div>
-              <p>High: {props.forecast.forecast.simpleforecast.forecastday[i].high.fahrenheit} ˚F</p>
-              <p>Low: {props.forecast.forecast.simpleforecast.forecastday[i].low.fahrenheit} ˚F</p>
-            </div>
-          ) : (
-             <div>
-               <p>High: {props.forecast.forecast.simpleforecast.forecastday[i].high.celsius} ˚C</p>
-               <p>Low: {props.forecast.forecast.simpleforecast.forecastday[i].low.celsius} ˚C</p>
-             </div>
-           )
-        }
-        <p>{props.forecast.forecast.simpleforecast.forecastday[i].conditions}</p>
+        {/* <img src={props.forecast.}></img> */}
+        <p>{props.forecast.data[i].time}</p>
+        <div>
+          <p>High: {props.forecast.data[i].temperatureHigh} ˚F</p>
+          <p>Low: {props.forecast.data[i].temperatureLow} ˚F</p>
+        </div>
+        <p>{props.forecast.data[i].summary}</p>
       </div>
     )
   }

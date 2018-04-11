@@ -5,14 +5,10 @@ const HourlyInfo = (props) => {
   const pushArray = (i, arr) => {
     arr.push(
       <div key={i}>
-        <img src={props.hourly.hourly_forecast[i].icon_url}></img>
-        <p>{props.hourly.hourly_forecast[i].FCTTIME.civil}</p>
-        {
-          props.units === 'imperial' ?
-          <p>{props.hourly.hourly_forecast[i].temp.english} ˚F</p> :
-          <p>{props.hourly.hourly_forecast[i].temp.metric} ˚C</p>
-        }
-        <p>{props.hourly.hourly_forecast[i].condition}</p>
+        {/* <img src={props.hourly.hourly_forecast[i].icon_url}></img> */}
+        <p>{props.hourly.data[i].time}</p>
+        <p>{props.hourly.data[i].temperature} {props.units === 'us' ? '˚F' : '˚C'}</p>
+        <p>{props.hourly.data[i].summary}</p>
       </div>
     )
   }

@@ -11,8 +11,9 @@ import config from '../../config.json';
 class WeatherApp extends React.Component {
   state = {
     section: 'current',
-    units: 'imperial',
-    conditions: undefined,
+    location: undefined,
+    units: undefined,
+    current: undefined,
     hourly: undefined,
     forecast: undefined
   }
@@ -21,25 +22,25 @@ class WeatherApp extends React.Component {
 
   handleUnitChange = ( units ) => this.setState({ units });
 
-  handleFetchData = ( lat, lng ) => {
+  handleFetchData = ( lat, lng, loc ) => {
 
-    fetch(`http://api.wunderground.com/api/${config.WEATHER_API_KEY}/conditions/q/${lat},${lng}.json`)
-    .then(response => response.json())
-    .then(json => {
-      this.setState({ conditions: json })
-    });
+    // const url = `https://crossorigin.me/https://api.darksky.net/forecast/${config.WEATHER_API_KEY}/${lat},${lng}?exclude=minutely&units=us`;
+    const url = `http://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${config.WEATHER_API_KEY}/${lat},${lng}?exclude=minutely&units=us`;
 
-    fetch(`http://api.wunderground.com/api/${config.WEATHER_API_KEY}/hourly/q/${lat},${lng}.json`)
-    .then(response => response.json())
-    .then(json => {
-      this.setState({ hourly: json })
-    });
 
-    fetch(`http://api.wunderground.com/api/${config.WEATHER_API_KEY}/forecast10day/q/${lat},${lng}.json`)
-    .then(response => response.json())
-    .then(json => {
-      this.setState({ forecast: json })
-    });
+    fetch(url)
+      .then(response => response.json())
+      .then(json => {
+        this.setState({
+          location: loc,
+          units: json.flags.units,
+          current: json.currently,
+          hourly: json.hourly,
+          forecast: json.daily
+        })
+      })
+      .catch(e => console.log(e))
+
   }
 
   render() {
@@ -47,33 +48,18 @@ class WeatherApp extends React.Component {
     const renderSection = () => {
       switch (this.state.section) {
         case 'current':
-          if (this.state.conditions !== undefined) {
+          if (this.state.current !== undefined) {
             return (
               <CurrentInfo
-                  units={this.state.units}
-
-                  iFeelsLike={this.state.conditions.current_observation.feelslike_f}
-                  mFeelsLike={this.state.conditions.current_observation.feelslike_c}
-
-                  iWindSpeed={this.state.conditions.current_observation.wind_mph}
-                  mWindSpeed={this.state.conditions.current_observation.wind_kph}
-
-                  windDirection={this.state.conditions.current_observation.wind_dir}
-
-                  iVisibility={this.state.conditions.current_observation.visibility_mi}
-                  mVisibility={this.state.conditions.current_observation.visibility_km}
-
-                  humidity={this.state.conditions.current_observation.relative_humidity}
-                />
+                current={this.state.current} units={this.state.units}/>
               )
           }
-
         case 'hourly':
           if (this.state.hourly !== undefined) {
             return (
               <HourlyInfo
-                units={this.state.units}
                 hourly={this.state.hourly}
+                units={this.state.units}
               />
             )
           }
@@ -94,14 +80,11 @@ class WeatherApp extends React.Component {
         {console.log(this.state)}
         <div className="currentCard">
         {
-          this.state.conditions !== undefined &&
+          this.state.current !== undefined &&
             <CurrentCard
+              location={this.state.location}
+              current={this.state.current}
               units={this.state.units}
-              loc={this.state.conditions.current_observation.display_location.full}
-              iTemp={this.state.conditions.current_observation.temp_f}
-              mTemp={this.state.conditions.current_observation.temp_c}
-              icon={this.state.conditions.current_observation.icon_url}
-              cond={this.state.conditions.current_observation.weather}
             />
         }
       </div>

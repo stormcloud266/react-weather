@@ -12,8 +12,8 @@ const Search = (props) => {
       .then(json => {
         const lat = json.results[0].geometry.location.lat;
         const lng = json.results[0].geometry.location.lng;
-        console.log(lat, lng);
-        props.handleFetchData(lat, lng);
+        const loc = json.results[0].formatted_address;
+        props.handleFetchData(lat, lng, loc);
       })
 
       e.target.value = '';
