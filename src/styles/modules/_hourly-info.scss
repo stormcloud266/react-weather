@@ -11,4 +11,9 @@
     justify-content: space-around;
     margin: 15px 0;
   }
+  &__array {
+    flex: 1;
+    box-sizing: border-box;
+    padding: 0 10px;
+  }
 }

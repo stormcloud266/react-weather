@@ -5,13 +5,16 @@ const ForecastInfo = (props) => {
   let pArray = [];
 
   for (let i = 0; i < 3; i++){
+    const tempHigh = props.forecast.data[i].temperatureHigh;
+    const tempLow = props.forecast.data[i].temperatureLow;
+    const time = props.forecast.data[i].time
+
     pArray.push(
-      <div key={i}>
+      <div className="forecast-info__array" key={i}>
         {/* <img src={props.forecast.}></img> */}
-        <p>{props.forecast.data[i].time}</p>
+        <p>{props.timeConversion(time, 'day')}</p>
         <div>
-          <p>High: {props.forecast.data[i].temperatureHigh} ˚F</p>
-          <p>Low: {props.forecast.data[i].temperatureLow} ˚F</p>
+          <p>{props.tempConversion(tempLow)} / {props.tempConversion(tempHigh)}</p>
         </div>
         <p>{props.forecast.data[i].summary}</p>
       </div>

@@ -10,37 +10,130 @@ import config from '../../config.json';
 
 class WeatherApp extends React.Component {
   state = {
+    loading: false,
+    error: {
+      status: false,
+      message: ''
+    },
     section: 'current',
     location: undefined,
-    units: undefined,
+    units: 'us',
     current: undefined,
     hourly: undefined,
     forecast: undefined
+  }
+
+  resetState = () => {
+    this.setState({
+      loading: false,
+      location: undefined,
+      current: undefined,
+      hourly: undefined,
+      forecast: undefined
+
+    })
+  }
+
+  tempConversion = (temp) => {
+    if (this.state.units === 'us') {
+      return Math.round(temp) + '˚F';
+    } else if (this.state.units === 'is') {
+      return Math.round((temp - 32) * 5/9) + '˚C';
+    }
+  }
+
+  timeConversion = (time, format) => {
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
+    if (format === 'hour') {
+      return new Date(time * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+    } else if (format === 'day') {
+      return days[new Date(time * 1000).getDay()];
+    }
+
   }
 
   handleSectionChange = ( section ) => this.setState({ section });
 
   handleUnitChange = ( units ) => this.setState({ units });
 
-  handleFetchData = ( lat, lng, loc ) => {
-
-    // const url = `https://crossorigin.me/https://api.darksky.net/forecast/${config.WEATHER_API_KEY}/${lat},${lng}?exclude=minutely&units=us`;
-    const url = `http://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${config.WEATHER_API_KEY}/${lat},${lng}?exclude=minutely&units=us`;
-
-
-    fetch(url)
+  handleFetchLocationData = (searchTerm) => {
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${searchTerm}&key=${config.GEOCODE_API_KEY}`
+    this.setState({ loading: true }, () => {
+      fetch(url)
       .then(response => response.json())
       .then(json => {
-        this.setState({
-          location: loc,
-          units: json.flags.units,
-          current: json.currently,
-          hourly: json.hourly,
-          forecast: json.daily
-        })
+        if (json.status === 'ZERO_RESULTS') {
+          this.setState({
+            error: {
+              status: true,
+              message: 'Location not found.',
+            }
+          }, this.resetState())
+        } else {
+          this.setState({
+            error: {
+              status: false,
+              message: '',
+            },
+          })
+          const lat = json.results[0].geometry.location.lat;
+          const lng = json.results[0].geometry.location.lng;
+          const loc = json.results[0].formatted_address;
+          this.handleFetchWeatherData(lat, lng, loc);
+        }
       })
-      .catch(e => console.log(e))
+      .catch(e => {
+        this.setState({
+          error: {
+            status: true,
+            message: 'There was a problem fetching the location data.'
+          }
+        }, this.resetState())
+      })
+    })
+  }
 
+  handleFetchWeatherData = ( lat, lng, loc ) => {
+    // const url = `https://crossorigin.me/https://api.darksky.net/forecast/${config.WEATHER_API_KEY}/${lat},${lng}?exclude=minutely&units=us`;
+
+    const url = `http://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${config.WEATHER_API_KEY}/${lat},${lng}?exclude=minutely&units=us`;
+
+      fetch(url)
+        .then(response => response.json())
+        .then(json => {
+          if (json.code === 400) {
+            this.setState({
+              error: {
+                status: true,
+                message: 'There was a problem fetching the weather data.'
+              }
+            }, this.resetState())
+          } else {
+            this.setState({
+              loading: false,
+              error: {
+                status: false,
+                message: '',
+              },
+              location: loc,
+              units: json.flags.units,
+              current: json.currently,
+              hourly: json.hourly,
+              forecast: json.daily
+            })
+          }
+        })
+        .catch(e => {
+          console.log(e);
+          this.setState({
+            error: {
+              status: true,
+              message: 'There was a problem fetching the weather data.'
+            }
+          }, this.resetState())
+        })
   }
 
   render() {
@@ -51,7 +144,10 @@ class WeatherApp extends React.Component {
           if (this.state.current !== undefined) {
             return (
               <CurrentInfo
-                current={this.state.current} units={this.state.units}/>
+                current={this.state.current}
+                units={this.state.units}
+                tempConversion={this.tempConversion}
+              />
               )
           }
         case 'hourly':
@@ -60,6 +156,8 @@ class WeatherApp extends React.Component {
               <HourlyInfo
                 hourly={this.state.hourly}
                 units={this.state.units}
+                tempConversion={this.tempConversion}
+                timeConversion={this.timeConversion}
               />
             )
           }
@@ -69,6 +167,8 @@ class WeatherApp extends React.Component {
               <ForecastInfo
                 units={this.state.units}
                 forecast={this.state.forecast}
+                tempConversion={this.tempConversion}
+                timeConversion={this.timeConversion}
               />
             )
           }
@@ -81,10 +181,12 @@ class WeatherApp extends React.Component {
         <div className="currentCard">
         {
           this.state.current !== undefined &&
+          this.state.loading !== true &&
             <CurrentCard
               location={this.state.location}
               current={this.state.current}
               units={this.state.units}
+              tempConversion={this.tempConversion}
             />
         }
       </div>
@@ -94,11 +196,18 @@ class WeatherApp extends React.Component {
           <PageLinks
             handleSectionChange={this.handleSectionChange}
             handleUnitChange={this.handleUnitChange}
+            section={this.state.section}
+            units={this.state.units}
           />
-          <Search handleFetchData={this.handleFetchData}/>
+          <Search
+            handleFetchLocationData={this.handleFetchLocationData}
+          />
         </div>
         <div className="infoCard__info">
-          {renderSection()}
+          {this.state.loading && <h3>loading...</h3>}
+          {this.state.error && <h3>{this.state.error.message}</h3>}
+
+          {!this.state.loading && renderSection()}
         </div>
       </div>
     </div>
