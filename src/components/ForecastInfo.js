@@ -11,7 +11,9 @@ const ForecastInfo = (props) => {
 
     pArray.push(
       <div className="forecast-info__array" key={i}>
-        {/* <img src={props.forecast.}></img> */}
+        <div>
+          <i className={`wi ${props.iconSelector(props.forecast.data[i].icon)}`}></i>
+        </div>
         <p>{props.timeConversion(time, 'day')}</p>
         <div>
           <p>{props.tempConversion(tempLow)} / {props.tempConversion(tempHigh)}</p>

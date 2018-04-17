@@ -28,7 +28,12 @@ module.exports = (env) => {
         //       'sass-loader'
         //     ]
         //   })
-        // }
+        // },
+        {
+            test: /\.(eot|svg|ttf|woff|woff2)$/,
+            exclude: /node_modules/,
+            loader: 'file-loader'
+        },
 
         {
           test: /\.s?css$/,

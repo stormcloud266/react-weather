@@ -11,7 +11,9 @@ const HourlyInfo = (props) => {
 
     pArray.push(
       <div className="hourly-info__array" key={i}>
-        {/* <img src={props.hourly.hourly_forecast[i].icon_url}></img> */}
+        <div>
+          <i className={`wi ${props.iconSelector(props.hourly.data[i].icon)}`}></i>
+        </div>
         <p>{props.tempConversion(temp)}</p>
         <p>{props.timeConversion(time, 'hour')}</p>
         <p>{props.hourly.data[i].summary}</p>

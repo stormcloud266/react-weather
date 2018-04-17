@@ -47,9 +47,33 @@ class WeatherApp extends React.Component {
 
     if (format === 'hour') {
       return new Date(time * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-
     } else if (format === 'day') {
       return days[new Date(time * 1000).getDay()];
+    }
+  }
+
+  iconSelector = (respIcon) => {
+    switch (respIcon) {
+      case 'clear-day':
+        return 'wi-day-sunny';
+      case 'clear-night':
+        return 'wi-night-clear';
+      case 'rain':
+        return 'wi-rain';
+      case 'snow':
+        return 'wi-snow';
+      case 'sleet':
+        return 'wi-sleet';
+      case 'wind':
+        return 'wi-strong-wind';
+      case 'fog':
+        return 'wi-fog';
+      case 'cloudy':
+        return 'wi-cloudy';
+      case 'partly-cloudy-day':
+        return 'wi-day-sunny-overcast';
+      case 'partly-cloudy-night':
+       return 'wi-night-partly-cloudy';
     }
 
   }
@@ -158,6 +182,7 @@ class WeatherApp extends React.Component {
                 units={this.state.units}
                 tempConversion={this.tempConversion}
                 timeConversion={this.timeConversion}
+                iconSelector={this.iconSelector}
               />
             )
           }
@@ -169,6 +194,7 @@ class WeatherApp extends React.Component {
                 forecast={this.state.forecast}
                 tempConversion={this.tempConversion}
                 timeConversion={this.timeConversion}
+                iconSelector={this.iconSelector}
               />
             )
           }
@@ -187,6 +213,7 @@ class WeatherApp extends React.Component {
               current={this.state.current}
               units={this.state.units}
               tempConversion={this.tempConversion}
+              iconSelector={this.iconSelector}
             />
         }
       </div>

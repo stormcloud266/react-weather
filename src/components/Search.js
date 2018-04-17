@@ -13,9 +13,6 @@ const Search = (props) => {
 
   return (
     <div className="search">
-      {/* <i className="wi wi-wu-rain"></i> */}
-      {/* <i className="wi-wu-sleat"></i> */}
-
       <input
         type="text"
         placeholder="City"
