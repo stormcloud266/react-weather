@@ -36,14 +36,14 @@ class WeatherApp extends React.Component {
 
   tempConversion = (temp) => {
     if (this.state.units === 'us') {
-      return Math.round(temp) + '˚F';
+      return Math.round(temp) + '˚';
     } else if (this.state.units === 'is') {
-      return Math.round((temp - 32) * 5/9) + '˚C';
+      return Math.round((temp - 32) * 5/9) + '˚';
     }
   }
 
   timeConversion = (time, format) => {
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
     if (format === 'hour') {
       return new Date(time * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
@@ -92,7 +92,7 @@ class WeatherApp extends React.Component {
           this.setState({
             error: {
               status: true,
-              message: 'Location not found.',
+              message: 'i can\'t seem to find this location... is it spelled correctly?',
             }
           }, this.resetState())
         } else {
@@ -112,7 +112,7 @@ class WeatherApp extends React.Component {
         this.setState({
           error: {
             status: true,
-            message: 'There was a problem fetching the location data.'
+            message: 'looks like there was a problem fetching the location data.'
           }
         }, this.resetState())
       })
@@ -131,7 +131,7 @@ class WeatherApp extends React.Component {
             this.setState({
               error: {
                 status: true,
-                message: 'There was a problem fetching the weather data.'
+                message: 'looks like there was a problem fetching the weather data.'
               }
             }, this.resetState())
           } else {
@@ -154,7 +154,7 @@ class WeatherApp extends React.Component {
           this.setState({
             error: {
               status: true,
-              message: 'There was a problem fetching the weather data.'
+              message: 'oh no! i couldn\'t find the weather data.'
             }
           }, this.resetState())
         })
@@ -204,7 +204,7 @@ class WeatherApp extends React.Component {
     return (
       <div className="wrapper">
         {console.log(this.state)}
-        <div className="currentCard">
+        <div className="current-card">
         {
           this.state.current !== undefined &&
           this.state.loading !== true &&
@@ -218,8 +218,8 @@ class WeatherApp extends React.Component {
         }
       </div>
 
-      <div className="infoCard">
-        <div className="infoCard__nav-search">
+      <div className="info-card">
+        <div className="info-card__nav-search">
           <PageLinks
             handleSectionChange={this.handleSectionChange}
             handleUnitChange={this.handleUnitChange}
@@ -229,11 +229,24 @@ class WeatherApp extends React.Component {
           <Search
             handleFetchLocationData={this.handleFetchLocationData}
           />
-        </div>
-        <div className="infoCard__info">
-          {this.state.loading && <h3>loading...</h3>}
-          {this.state.error && <h3>{this.state.error.message}</h3>}
+          {
+            !this.state.current &&
+            !this.state.loading &&
+            !this.state.error.status &&
+              <p className='select'>which forecast are we grabbin?</p>
+          }
+          {
+            this.state.loading &&
+              <p className='select'>calling my psychic...</p>
+          }
+          {
+            this.state.error &&
+              <p className='select'>{this.state.error.message}</p>
+            }
 
+
+        </div>
+        <div className="info-card__info">
           {!this.state.loading && renderSection()}
         </div>
       </div>

@@ -21,17 +21,34 @@ const CurrentInfo = (props) => {
 
   return (
     <div className="current-info">
-
       <div className="current-info__inner">
-        <div>
-          <p>Feels Like: {props.tempConversion(appTemp)}</p>
-          <p>Wind Speed: {speedConversion()}</p>
-          <p>Chance of Precipitation: {Math.round(props.current.precipProbability * 100)}%</p>
+
+        <div className="current-info__inner-half">
+          <div className="current-info__section">
+            <i className='wi wi-thermometer'></i>
+            <p>Feels Like: {props.tempConversion(appTemp)}</p>
+          </div>
+          <div className="current-info__section">
+            <i className='wi wi-windy'></i>
+            <p>Wind Speed: {speedConversion()}</p>
+          </div>
+          <div className="current-info__section">
+            <i className='wi wi-umbrella'></i>
+            <p>Chance of Precipitation: {Math.round(props.current.precipProbability * 100)}%</p>
+          </div>
         </div>
-        <div>
-          <p>Visibility: {lenConversion()}</p>
-          <p>Humidity: {Math.round(props.current.humidity * 100)}%</p>
+
+        <div className="current-info__inner-half">
+          <div className="current-info__section">
+            <i className='wi wi-smog'></i>
+            <p>Visibility: {lenConversion()}</p>
+          </div>
+          <div className="current-info__section">
+            <i className='wi wi-humidity'></i>
+            <p>Humidity: {Math.round(props.current.humidity * 100)}%</p>
+          </div>
         </div>
+        
       </div>
     </div>
   )

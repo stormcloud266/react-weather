@@ -30,7 +30,7 @@ module.exports = (env) => {
         //   })
         // },
         {
-            test: /\.(eot|svg|ttf|woff|woff2)$/,
+            test: /\.(png|eot|svg|ttf|woff|woff2)$/,
             exclude: /node_modules/,
             loader: 'file-loader'
         },

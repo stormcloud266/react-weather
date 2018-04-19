@@ -25,7 +25,7 @@ const PageLinks = (props) => {
         <a
           className={props.units === 'us' ? 'active' : undefined}
           onClick={() => props.handleUnitChange('us')}>
-          Imperial
+          US
         </a>
         <a
           className={props.units === 'is' ? 'active' : undefined}

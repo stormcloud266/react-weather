@@ -11,11 +11,11 @@ const HourlyInfo = (props) => {
 
     pArray.push(
       <div className="hourly-info__array" key={i}>
+        <p>{props.timeConversion(time, 'hour')}</p>
         <div>
           <i className={`wi ${props.iconSelector(props.hourly.data[i].icon)}`}></i>
         </div>
         <p>{props.tempConversion(temp)}</p>
-        <p>{props.timeConversion(time, 'hour')}</p>
         <p>{props.hourly.data[i].summary}</p>
       </div>
     )

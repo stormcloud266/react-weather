@@ -11,4 +11,34 @@
     display: flex;
     justify-content: space-around;
   }
+  &__inner-half {
+    flex: 1;
+  }
+  &__section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    i {
+      color: darken($mainCardBg, 22%);
+      font-size: 24px;
+      flex: 1;
+      text-align: center;
+      margin-right: 5px;
+    }
+    p {
+      flex: 4;
+    }
+  }
+
 }
+
+// i {
+//   color: darken($mainCardBg, 18%);
+//   font-size: 20px;
+//   // margin-right: 20px;
+//   flex: 1;
+// }
+// p {
+//   flex: 3;
+// }

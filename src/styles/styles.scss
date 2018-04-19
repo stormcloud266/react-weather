@@ -1,9 +1,9 @@
 @import "./base/variables";
 @import "./base/base";
-@import "./base/css/weather-icons.min.css";
+@import "./assets/css/weather-icons.min.css";
 @import "./modules/wrapper";
-@import "./modules/currentCard";
-@import "./modules/infoCard";
+@import "./modules/current-card";
+@import "./modules/info-card";
 @import "./modules/page-links";
 @import "./modules/search";
 @import "./modules/current-info";

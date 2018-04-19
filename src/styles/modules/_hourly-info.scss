@@ -2,18 +2,27 @@
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  // background: purple;
   flex-basis: 100%;
+  text-align: center;
 
   &__array-container {
     display: flex;
-    // background: darkred;
     justify-content: space-around;
     margin: 15px 0;
   }
   &__array {
     flex: 1;
     box-sizing: border-box;
-    padding: 0 10px;
+  }
+  i {
+    color: darken($mainCardBg, 22%);
+    font-size: 42px;
+    margin: 20px 0;
+  }
+  h3 {
+    margin: 0;
+  }
+  p {
+    margin: 5px;
   }
 }
