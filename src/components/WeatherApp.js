@@ -124,7 +124,7 @@ class WeatherApp extends React.Component {
 
     const url = `http://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${config.WEATHER_API_KEY}/${lat},${lng}?exclude=minutely&units=us`;
 
-      fetch(url, {cors: true,  credentials: 'same-origin'})
+      fetch(url, {cors: true})
         .then(response => response.json())
         .then(json => {
           if (json.code === 400) {
