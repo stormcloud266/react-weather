@@ -124,7 +124,7 @@ class WeatherApp extends React.Component {
 
     // const url = `http://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${config.WEATHER_API_KEY}/${lat},${lng}?exclude=minutely&units=us`;
 
-      fetch(url)
+      fetch(url, {cors: true})
         .then(response => response.json())
         .then(json => {
           if (json.code === 400) {
@@ -203,7 +203,6 @@ class WeatherApp extends React.Component {
 
     return (
       <div className="wrapper">
-        {console.log(this.state)}
         <div className="current-card">
         {
           this.state.current !== undefined &&
@@ -241,6 +240,7 @@ class WeatherApp extends React.Component {
           }
           {
             this.state.error &&
+            !this.state.loading &&
               <p className='select'>{this.state.error.message}</p>
             }
 
