@@ -20,15 +20,15 @@ module.exports = (env) => {
 
         // figure out how to get this working
 
-        {
-          test: /\.s?css$/,
-          use: CSSExtract.extract({
-            use: [
-              'css-loader',
-              'sass-loader'
-            ]
-          })
-        },
+        // {
+        //   test: /\.s?css$/,
+        //   use: CSSExtract.extract({
+        //     use: [
+        //       'css-loader',
+        //       'sass-loader'
+        //     ]
+        //   })
+        // },
         {
           test: /\.(eot|svg|ttf|woff|woff2)$/,
           exclude: /node_modules/,
@@ -37,16 +37,16 @@ module.exports = (env) => {
         {
           test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
           use: 'url-loader',
-        }
+        },
 
-        // {
-        //   test: /\.s?css$/,
-        //   use: [
-        //     'style-loader',
-        //     'css-loader',
-        //     'sass-loader'
-        //   ]
-        // }
+        {
+          test: /\.s?css$/,
+          use: [
+            'style-loader',
+            'css-loader',
+            'sass-loader'
+          ]
+        }
       ]
     },
     resolve: {
@@ -54,7 +54,7 @@ module.exports = (env) => {
     },
     output: {
       path: __dirname + '/docs',
-      publicPath: './',
+      publicPath: '/',
       filename: 'bundle.js'
     },
     plugins: [

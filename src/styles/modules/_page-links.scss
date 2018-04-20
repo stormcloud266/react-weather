@@ -9,6 +9,10 @@
   a {
     margin: 0 15px;
     transition: color .3s;
+
+    @include whenSmall {
+      margin: 0 30px;
+    }
   }
 
   a:hover {

@@ -25,4 +25,27 @@
   p {
     margin: 5px;
   }
+  @include whenSmall {
+      &__array-container {
+        flex-direction: column;
+      }
+      &__array {
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+        // text-align: left;
+      }
+      div {
+        order: 1;
+        flex: 1;
+      }
+      p {
+        order: 2;
+        font-size: 18px;
+        flex: 1;
+      }
+      p:nth-child(1) {
+        order: 3;
+      }
+  }
 }

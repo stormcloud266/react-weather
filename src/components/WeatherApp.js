@@ -120,9 +120,9 @@ class WeatherApp extends React.Component {
   }
 
   handleFetchWeatherData = ( lat, lng, loc ) => {
-    const url = `https://crossorigin.me/https://api.darksky.net/forecast/${config.WEATHER_API_KEY}/${lat},${lng}?exclude=minutely&units=us`;
+    // const url = `https://crossorigin.me/https://api.darksky.net/forecast/${config.WEATHER_API_KEY}/${lat},${lng}?exclude=minutely&units=us`;
 
-    // const url = `http://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${config.WEATHER_API_KEY}/${lat},${lng}?exclude=minutely&units=us`;
+    const url = `http://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${config.WEATHER_API_KEY}/${lat},${lng}?exclude=minutely&units=us`;
 
       fetch(url)
         .then(response => response.json())

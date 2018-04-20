@@ -19,7 +19,7 @@ const ForecastInfo = (props) => {
           <p>High: {props.tempConversion(tempHigh)}</p>
           <p>Low: {props.tempConversion(tempLow)}</p>
         </div>
-        <p>{props.forecast.data[i].summary}</p>
+        <p className="forecast-info__summary">{props.forecast.data[i].summary}</p>
       </div>
     )
   }

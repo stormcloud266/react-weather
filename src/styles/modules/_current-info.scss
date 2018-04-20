@@ -6,7 +6,6 @@
   align-items: center;
 
   &__inner {
-    // width: 100%;
     flex-basis: 100%;
     display: flex;
     justify-content: space-around;
@@ -30,15 +29,13 @@
       flex: 4;
     }
   }
+  @include whenSmall {
+    &__inner {
+      flex-direction: column;
+    }
+    &__section {
+      padding: 0 5px;
+    }
+  }
 
 }
-
-// i {
-//   color: darken($mainCardBg, 18%);
-//   font-size: 20px;
-//   // margin-right: 20px;
-//   flex: 1;
-// }
-// p {
-//   flex: 3;
-// }
