@@ -53,7 +53,7 @@ module.exports = (env) => {
       extensions: ['*', '.js', '.jsx']
     },
     output: {
-      path: __dirname + '/docs',
+      path: __dirname + '/dist',
       publicPath: '/',
       filename: 'bundle.js'
     },
