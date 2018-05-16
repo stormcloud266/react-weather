@@ -5,7 +5,6 @@ import Search from './Search';
 import CurrentInfo from './CurrentInfo';
 import HourlyInfo from './HourlyInfo';
 import ForecastInfo from './ForecastInfo';
-import config from '../../config.json';
 import openSocket from 'socket.io-client';
 const socket = openSocket('/');
 

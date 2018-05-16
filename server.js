@@ -2,18 +2,19 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const axios = require('axios');
-const config = require('./config.json');
+// const config = require('./config.json');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
+const port = process.env.PORT || 3000;
 
 app.use(express.static(__dirname + '/dist'));
 
 io.on('connection', client => {
 
   client.on('sendLocation', location => {
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${config.GEOCODE_API_KEY}`;
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${process.env.GEOCODE_API_KEY}`;
 
     axios.get(url)
       .then(response => {
@@ -48,7 +49,7 @@ io.on('connection', client => {
 }); // end of on connection
 
 handleFetchWeatherData = ( lat, lng, loc ) => {
-  const url = `https://api.darksky.net/forecast/${config.WEATHER_API_KEY}/${lat},${lng}?exclude=minutely&units=us`;
+  const url = `https://api.darksky.net/forecast/${process.env.WEATHER_API_KEY}/${lat},${lng}?exclude=minutely&units=us`;
 
     axios.get(url)
       .then(response => {
@@ -70,4 +71,4 @@ handleFetchWeatherData = ( lat, lng, loc ) => {
 }
 
 
-server.listen(3000);
+server.listen(port);
