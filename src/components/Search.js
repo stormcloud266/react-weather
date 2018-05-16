@@ -1,6 +1,4 @@
 import React from 'react';
-import config from '../../config.json';
-
 
 const Search = (props) => {
 
