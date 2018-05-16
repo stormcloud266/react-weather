@@ -6,6 +6,8 @@ import CurrentInfo from './CurrentInfo';
 import HourlyInfo from './HourlyInfo';
 import ForecastInfo from './ForecastInfo';
 import config from '../../config.json';
+import openSocket from 'socket.io-client';
+const socket = openSocket('/');
 
 
 class WeatherApp extends React.Component {
@@ -21,6 +23,20 @@ class WeatherApp extends React.Component {
     current: undefined,
     hourly: undefined,
     forecast: undefined
+  }
+
+  componentDidMount () {
+    socket.on('weatherJSON', data => this.handleWeatherData(data))
+    socket.on('setLocation', location => this.setState({ location }))
+
+
+    socket.on('error', error => {
+      this.setState({ error }, () => {
+        if (error.status) {
+          this.resetState()
+        }
+      })
+    }); // end of on error
   }
 
   resetState = () => {
@@ -82,82 +98,26 @@ class WeatherApp extends React.Component {
 
   handleUnitChange = ( units ) => this.setState({ units });
 
-  handleFetchLocationData = (searchTerm) => {
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${searchTerm}&key=${config.GEOCODE_API_KEY}`
+  handleFetchLocationData = (location) => {
     this.setState({ loading: true }, () => {
-      fetch(url)
-      .then(response => response.json())
-      .then(json => {
-        if (json.status === 'ZERO_RESULTS') {
-          this.setState({
-            error: {
-              status: true,
-              message: 'i can\'t seem to find this location... is it spelled correctly?',
-            }
-          }, this.resetState())
-        } else {
-          this.setState({
-            error: {
-              status: false,
-              message: '',
-            },
-          })
-          const lat = json.results[0].geometry.location.lat;
-          const lng = json.results[0].geometry.location.lng;
-          const loc = json.results[0].formatted_address;
-          this.handleFetchWeatherData(lat, lng, loc);
-        }
-      })
-      .catch(e => {
-        this.setState({
-          error: {
-            status: true,
-            message: 'looks like there was a problem fetching the location data.'
-          }
-        }, this.resetState())
-      })
+      socket.emit('sendLocation', location)
     })
   }
 
-  handleFetchWeatherData = ( lat, lng, loc ) => {
-    // const url = `https://crossorigin.me/https://api.darksky.net/forecast/${config.WEATHER_API_KEY}/${lat},${lng}?exclude=minutely&units=us`;
+  handleWeatherData = ( data ) => {
+    console.log(data);
 
-    const url = `http://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${config.WEATHER_API_KEY}/${lat},${lng}?exclude=minutely&units=us`;
-
-      fetch(url)
-        .then(response => response.json())
-        .then(json => {
-          if (json.code === 400) {
-            this.setState({
-              error: {
-                status: true,
-                message: 'looks like there was a problem fetching the weather data.'
-              }
-            }, this.resetState())
-          } else {
-            this.setState({
-              loading: false,
-              error: {
-                status: false,
-                message: '',
-              },
-              location: loc,
-              units: json.flags.units,
-              current: json.currently,
-              hourly: json.hourly,
-              forecast: json.daily
-            })
-          }
-        })
-        .catch(e => {
-          console.log(e);
-          this.setState({
-            error: {
-              status: true,
-              message: 'oh no! i couldn\'t find the weather data.'
-            }
-          }, this.resetState())
-        })
+    this.setState({
+      loading: false,
+      error: {
+        status: false,
+        message: '',
+      },
+      units: data.flags.units,
+      current: data.currently,
+      hourly: data.hourly,
+      forecast: data.daily
+    });
   }
 
   render() {

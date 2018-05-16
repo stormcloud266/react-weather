@@ -1,7 +1,6 @@
 import React from 'react';
 import config from '../../config.json';
-import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:3000');
+
 
 const Search = (props) => {
 
@@ -10,7 +9,6 @@ const Search = (props) => {
         const searchTerm = e.target.value.trim().replace(/ /g,"_");
         props.handleFetchLocationData(searchTerm)
         e.target.value = '';
-        socket.emit('sendMessage', 'this is working')
       }
   }
 

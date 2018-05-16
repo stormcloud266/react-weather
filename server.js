@@ -1,33 +1,73 @@
 const express = require('express');
-const socket = require('socket.io');
-// const io = require('socket.io')();
-
+const http = require('http');
+const socketIo = require('socket.io');
+const axios = require('axios');
+const config = require('./config.json');
 
 const app = express();
-const server = app.listen(3000, () => {
-  console.log('server is up');
-});
+const server = http.createServer(app);
+const io = socketIo(server);
 
-app.use(express.static('dist'));
-const io = socket(server);
+app.use(express.static(__dirname + '/dist'));
 
-// io.on('connection', socket => {
-//   socket.on('sendMessage', data => {
-//     const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${data}&key=AIzaSyCo7ttO8FBnUNXonnzWcSLBMGsAdOHJi4o`;
-//
-//     axios.get(url)
-//       .then(res => io.emit('upper', res.data.results[0].formatted_address))
-//       // .then(json => {
-//       //   // io.emit('upper', res.data.results[0].formatted_address)
-//       //   console.log(json);
-//       // })
-//       .catch('something went wrong');
-//   })
-// })
 io.on('connection', client => {
-  console.log('connected');
-  client.on('sendMessage', data => {
-    console.log(data);
-  })
-})
-// io.listen(3000);
+
+  client.on('sendLocation', location => {
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${config.GEOCODE_API_KEY}`;
+
+    axios.get(url)
+      .then(response => {
+        if (response.data.status === 'ZERO_RESULTS') {
+          io.emit('error',  {
+            status: true,
+            message: 'i can\'t seem to find this location... is it spelled correctly?',
+          })
+        } else {
+          io.emit('error',  {
+            status: false,
+            message: '',
+          })
+
+          const lat = response.data.results[0].geometry.location.lat;
+          const lng = response.data.results[0].geometry.location.lng;
+          const loc = response.data.results[0].formatted_address;
+
+          io.emit('setLocation', loc)
+
+          handleFetchWeatherData(lat, lng, loc)
+        }
+      })
+      .catch(error => {
+        io.emit('error',  {
+          status: true,
+          message: 'something went wrong with the geocoding API',
+        });
+      });
+  }); // end of on sendLocation
+
+}); // end of on connection
+
+handleFetchWeatherData = ( lat, lng, loc ) => {
+  const url = `https://api.darksky.net/forecast/${config.WEATHER_API_KEY}/${lat},${lng}?exclude=minutely&units=us`;
+
+    axios.get(url)
+      .then(response => {
+        if (response.data.code === 400) {
+          io.emit('error',  {
+            status: true,
+            message: 'Uh oh, I couldn\'t find this location.',
+          });
+        } else {
+          io.emit('weatherJSON', response.data);
+        }
+      })
+      .catch(error => {
+        io.emit('error',  {
+          status: true,
+          message: 'something went wrong with the weather API',
+        });
+      });
+}
+
+
+server.listen(3000);
