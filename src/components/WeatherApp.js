@@ -104,7 +104,6 @@ class WeatherApp extends React.Component {
   }
 
   handleWeatherData = ( data ) => {
-    console.log(data);
 
     this.setState({
       loading: false,
