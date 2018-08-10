@@ -1,6 +1,5 @@
 .search {
   text-align: center;
-  // margin: 20px 0;
   padding: 20px 0 25px;
   border-bottom: 1px solid darken($mainCardBg, 5%);
 
@@ -14,13 +13,11 @@
     color: $textColor;
     border-radius: 3px;
 
-    @include whenSmall {
-      width: 80%;
-    }
+    @include whenSmall { width: 80%; }
 
-  &::placeholder {
-    color: $textColor;
-    opacity: .5;
-  }
+    &::placeholder {
+      color: $textColor;
+      opacity: .5;
+    }
   }
 }

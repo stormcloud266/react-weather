@@ -5,7 +5,7 @@ const Search = (props) => {
   const fetchLocationData = (e) => {
       if (e.key === 'Enter') {
         const searchTerm = e.target.value.trim().replace(/ /g,"_");
-        props.handleFetchLocationData(searchTerm)
+        props.handleFetchLocationData(searchTerm);
         e.target.value = '';
       }
   }

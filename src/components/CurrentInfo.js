@@ -4,16 +4,16 @@ const CurrentInfo = (props) => {
 
   const lenConversion = () => {
     if (props.units === 'us') {
-      return (Math.round(props.current.visibility)) + ' mi'
+      return (Math.round(props.current.visibility)) + ' mi';
     } else if (props.units === 'is') {
-      return (Math.round(props.current.visibility * 1.60934)) + ' km'
+      return (Math.round(props.current.visibility * 1.60934)) + ' km';
     }
   }
   const speedConversion = () => {
     if (props.units === 'us') {
-      return (Math.round(props.current.windSpeed)) + ' mph'
+      return (Math.round(props.current.windSpeed)) + ' mph';
     } else if (props.units === 'is') {
-      return (Math.round(props.current.windSpeed * 1.60934)) + ' kph'
+      return (Math.round(props.current.windSpeed * 1.60934)) + ' kph';
     }
   }
 
@@ -48,7 +48,7 @@ const CurrentInfo = (props) => {
             <p>Humidity: {Math.round(props.current.humidity * 100)}%</p>
           </div>
         </div>
-        
+
       </div>
     </div>
   )

@@ -28,15 +28,12 @@ class WeatherApp extends React.Component {
     socket.on('weatherJSON', data => this.handleWeatherData(data))
     socket.on('setLocation', location => this.setState({ location }))
 
-
     socket.on('error', error => {
       this.setState({ error }, () => {
-        if (error.status) {
-          this.resetState()
-        }
-      })
+        if (error.status) { this.resetState() }
+      });
     }); // end of on error
-  }
+  };
 
   resetState = () => {
     this.setState({
@@ -45,9 +42,8 @@ class WeatherApp extends React.Component {
       current: undefined,
       hourly: undefined,
       forecast: undefined
-
-    })
-  }
+    });
+  };
 
   tempConversion = (temp) => {
     if (this.state.units === 'us') {
@@ -100,11 +96,10 @@ class WeatherApp extends React.Component {
   handleFetchLocationData = (location) => {
     this.setState({ loading: true }, () => {
       socket.emit('sendLocation', location)
-    })
-  }
+    });
+  };
 
   handleWeatherData = ( data ) => {
-
     this.setState({
       loading: false,
       error: {
@@ -116,7 +111,7 @@ class WeatherApp extends React.Component {
       hourly: data.hourly,
       forecast: data.daily
     });
-  }
+  };
 
   render() {
 
@@ -211,7 +206,6 @@ class WeatherApp extends React.Component {
     </div>
     )
   }
-
 }
 
 export default WeatherApp;

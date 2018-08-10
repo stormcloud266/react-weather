@@ -2,7 +2,7 @@ import React from 'react';
 
 const CurrentCard = (props) => {
 
-  const temp = props.current.temperature
+  const temp = props.current.temperature;
 
   return (
     <div className="current-card--inner">

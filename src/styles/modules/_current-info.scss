@@ -10,9 +10,7 @@
     display: flex;
     justify-content: space-around;
   }
-  &__inner-half {
-    flex: 1;
-  }
+  &__inner-half { flex: 1; }
   &__section {
     display: flex;
     justify-content: center;
@@ -25,17 +23,11 @@
       text-align: center;
       margin-right: 5px;
     }
-    p {
-      flex: 4;
-    }
+    p { flex: 4; }
   }
   @include whenSmall {
-    &__inner {
-      flex-direction: column;
-    }
-    &__section {
-      padding: 0 5px;
-    }
+    &__inner { flex-direction: column; }
+    &__section { padding: 0 5px; }
   }
 
 }

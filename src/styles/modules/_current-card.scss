@@ -14,9 +14,7 @@
    justify-content: center;
    color: $textColor;
 
-   @include whenSmall {
-     min-height: 370px;
-   }
+   @include whenSmall { min-height: 370px; }
 
  &--inner {
    display: flex;
@@ -33,7 +31,5 @@
    letter-spacing: 2px;
    margin: 0;
  }
- p {
-   font-size:18px;
- }
+ p { font-size:18px; }
 }
