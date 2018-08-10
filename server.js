@@ -2,7 +2,7 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const axios = require('axios');
-const config = require('./config.json');
+// const config = require('./config.json');
 
 const WEATHER_KEY = process.env.WEATHER_API_KEY || config.WEATHER_API_KEY;
 const GEOCODE_KEY = process.env.GEOCODE_API_KEY || config.GEOCODE_API_KEY;
@@ -46,9 +46,8 @@ io.on('connection', client => {
           message: 'something went wrong with the geocoding API',
         });
       });
-  }); // end of on sendLocation
-
-}); // end of on connection
+  });
+});
 
 handleFetchWeatherData = ( lat, lng, loc ) => {
   const url = `https://api.darksky.net/forecast/${WEATHER_KEY}/${lat},${lng}?exclude=minutely&units=us`;
